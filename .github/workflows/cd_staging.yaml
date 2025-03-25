@@ -20,7 +20,7 @@ jobs:
        - name: Deploy to Server
          run: |
            ssh -i ~/.ssh/id_rsa root@170.64.171.142 '
-             cd bms-cicd && git pull &&
+             cd bms-cicd/ && git pull &&
              pnpm install && 
              pm2 restart http-server &&
              pm2 restart next-js &&
