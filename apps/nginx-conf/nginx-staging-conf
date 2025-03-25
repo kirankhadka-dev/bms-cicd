@@ -16,10 +16,8 @@ http {
         proxy_cache_bypass $http_upgrade;
     }
 	}
-}
 
-http {
-	server {
+    server {
     listen 80;
     server_name staging.week-25-ws.kirandev.org;
 
@@ -32,10 +30,10 @@ http {
         proxy_cache_bypass $http_upgrade;
     }
 	}
-}
 
-http {
-	server {
+
+
+    server {
     listen 80;
     server_name staging.week-25-http.kirandev.org;
 

@@ -1,0 +1,21 @@
+# Define triggers: when should it be run 
+
+name: Deploy on Staging
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  redeploy_everything:
+    name: Deploying everything to the staging   cluster
+    steps:
+      - name: SSH Into server
+      - run: |
+           echo ${{secrets.SSH_PRIVATE_KEY}} &> ~/ssh_key
+           ssh -i ~/ssh_key @root170.64.171.142
+           cd bms-cicd && git pull
+           pnpm install 
+           pm2 restart http server
+           pm2 restart next js 
+           pm2 restart web server
+     
