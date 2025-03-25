@@ -9,11 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploying everything to the staging cluster
     steps:
-       - name: SSH Into server
+       - name: Setup SSH
          run: |
-           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/ssh_key
-           chmod 600 ~/ssh_key
-           ssh -i ~/ssh_key root@170.64.171.142 '
+           mkdir -p ~/.ssh
+           ssh-keyscan 170.64.171.142 >> ~/.ssh/known_hosts
+           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+           chmod 600 ~/.ssh/id_rsa
+           chmod 600 ~/.ssh/known_hosts
+       
+       - name: Deploy to Server
+         run: |
+           ssh -i ~/.ssh/id_rsa root@170.64.171.142 '
              cd bms-cicd && git pull &&
              pnpm install && 
              pm2 restart http-server &&
