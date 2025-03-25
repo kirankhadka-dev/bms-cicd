@@ -3,15 +3,15 @@
 name: Deploy on Staging
 on:
   push:
-    branches:
-      - "main"
+    branches: [main]
+      
 jobs:
-  uses: ubuntu-latest
+  runs-on: ubuntu-latest
   redeploy_everything:
     name: Deploying everything to the staging   cluster
     steps:
-       name: SSH Into server
-       run: |
+       - name: SSH Into server
+       -  run: |
            echo ${{secrets.SSH_PRIVATE_KEY}} &> ~/ssh_key
            ssh -i ~/ssh_key @root170.64.171.142
            cd bms-cicd && git pull
